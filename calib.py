@@ -168,7 +168,6 @@ def update_option(option):
     return option
 
 def read_init_dod(option, interval):
-    #dod = pd.read_csv(option.output_location + "dod.csv")
     dod = pd.read_csv(option.dod_file)
     if "interval" in set(dod.columns):
         dod_temp = dod[dod["interval"]==interval]
@@ -208,7 +207,6 @@ def sensorTimeCalc(edges, measurment_edge2id, edge2time):
         _time += edge2time[edge]
         if edge in measurment_edge2id.keys():
             time_list.append(str(_time))
-        #_time += edge_id2time[edge]
     if(len(time_list)==0):
         return None
     else:
@@ -220,14 +218,12 @@ def update_sensorOnRoute(routes, interval_size):
 
     sensorOnRoute = list()
     for index, row in routes.iterrows():
-        #print(row.sensors)
-        #if not (row.sensors is None):
         if str(row.sensors)!="nan" and not(row.sensors is None):
             _sensors = str(row.sensors).split(" ")
             times = str(row.sensors_time).split(" ")
             for i in range(len(_sensors)):
                     sensor = int(_sensors[i])
-                    time = int(float(times[i]))#*1.4)             ###   !!!!    ###########################################
+                    time = int(float(times[i]))
                     if time > interval_size :
                         prob = 0
                     else:
@@ -253,9 +249,7 @@ def update_init_od(option, dod, spp, sensor_count, od_waiting):
         sensor_count = 0 
     init_od = dod.copy()
     spp_1 = spp.groupby("trip_id")["prob"].apply(sum).reset_index()
-    ####################################3
-    #spp_1.to_csv("test_spp.csv", index=False)
-    ####################################
+
     test = init_od.merge(spp_1, on="trip_id")
     if option.scale_number is None:
         scale = 1/((test["prob"]*test["weight_trip"]).sum())
@@ -295,9 +289,7 @@ def initializing(option):
     dod = routes.groupby(["from_node", "to_node"]).first().reset_index()[["trip_id", "from_node", "to_node", "weight_trip"]]
     dodlen2 = len(dod)
     log.info("    remove " + str(dodlen - dodlen2) + " trips without any route")
-    #sum_weight_trip = dod["weight_trip"].sum()
-    #dod["weight_trip"] = dod["weight_trip"].apply(lambda x: x/sum_weight_trip)
-    #dod.to_csv(option.output_location + "dod.csv", index=False)
+
     real_data = pd.read_csv(os.path.join(option.output_location,"real_data.csv"))
     measurment_edge2id = real_data.set_index("edge")["id"].to_dict()
     trip2n_routes = routes.groupby(["from_node","to_node"]).apply(len)
@@ -391,10 +383,7 @@ def route_sampling(od, _routes, option, interval,  iteration, sample_iteration):
                                                     weights=(1-np.ceil(x)+x, np.ceil(x)-x), k=1)[0])) 
     routes = routes[routes["number_of_trips_int"] > 0]
     for index, row in routes.iterrows():
-        #stochatic
         depart_list = random.choices(list(range(interval*interval_size, (interval+1)*interval_size)), k=row.number_of_trips_int)
-        #deterministic
-        #depart_list = [interval_size*interval + (interval_size*x)/(row.number_of_trips_int+1) for x in range(1, 1+row.number_of_trips_int)]
         for depart in depart_list:
             all_routes.append({"depart":depart, "route_id":row.route_id, "trip_id":row.trip_id})
 
@@ -409,7 +398,6 @@ def route_sampling(od, _routes, option, interval,  iteration, sample_iteration):
     all_routes_df.rename(columns={"index":"id"}, inplace=True)
     all_routes_df["id"] = all_routes_df["id"].apply(lambda x: str(x) + "_" + str(interval))
     vehid2pathid = all_routes_df.set_index("id")["route_id"].to_dict()
-    #log.info("        number of vehicles in sampling : " + str(len(all_routes_df)))
     def convert_row(row):
         return """
         <vehicle id="%s" depart="%s" departLane="%s" departSpeed="%s" departPos="0" arrivalPos="max">
@@ -424,7 +412,6 @@ def route_sampling(od, _routes, option, interval,  iteration, sample_iteration):
         myfile.write(text0+text1+text2+text3)
     return vehid2pathid, all_routes_df,len(all_routes_df)
 
-#vehid2pathid, all_routes_df = route_sampling(od_estimation, routes, hour)
 
 
 ###########################################################################################3
@@ -443,8 +430,6 @@ def create_edge_data_add(option, interval, iteration, sample_iteration):
     with open(os.path.join(option.output_location,str(interval),str(iteration)+"_"+str(sample_iteration)+"_edge_data_add.xml"), 'w') as myfile: 
         myfile.write(text0+text1+text2+text3)
 
-#interval = int(option.interval_begin)
-#create_edge_data_add(option, interval)
 
 
 ###########################################################################################3
@@ -460,15 +445,12 @@ def sumoCommand(option, interval, iteration, sample_iteration):
     sc_dict["--tripinfo-output"] = os.path.join(diroutput , str(iteration)+"_"+str(sample_iteration)+"_trip_info.xml")
     sc_dict["--statistic-output"] = os.path.join(diroutput , str(iteration)+"_"+str(sample_iteration)+"_statistic_output.xml")
     sc_dict["--vehroute-output"] =  os.path.join(diroutput , str(iteration)+"_"+str(sample_iteration)+"_vehroute_output.xml")
-    #sc_dict["--tripinfo-output.write-unfinished"] = "true"
     sc_dict["--tripinfo-output.write-undeparted"] = "true"
     sc_dict["--vehroute-output.write-unfinished"] = "true"
-    #sc_dict["--vehroute-output.write-undeparted"] = "true"
 
     sc_dict["--vehroute-output.exit-times"] = "true"
     sc_dict["--no-warnings"] = "true"
     sc_dict["--no-step-log"] = "true"
-    #sc_dict["--vehroute-output.sorted"] = "true"
     sc_dict["--begin"] = str(interval * int(option.interval_size))
 
     sumoCmd = list()
@@ -479,41 +461,22 @@ def sumoCommand(option, interval, iteration, sample_iteration):
     return sumoCmd
 
 
-#import traci.constants as tc
 
 def simulation(option, interval, iteration, dod, last_best_iteration, last_best_sample_iteration, net, sample_iteration):
     
-    #ft2id_trips = dod.set_index(["from_node", "to_node"])["trip_id"].to_dict()
-    #ft2weight_trips = dod.set_index(["from_node", "to_node"])["weight_trip"].to_dict()
     sumoCmd = sumoCommand(option, interval, iteration, sample_iteration)
     traci.start(sumoCmd)
     savedstate = os.path.join(option.output_location,str(interval-1),str(last_best_iteration),str(last_best_sample_iteration)+"_savedstate.xml")
     if os.path.isfile(savedstate) and (eval(option.netstate_loading.title())):
-       # log.info("        loading vehicles from the last interval  ") 
         traci.simulation.loadState(savedstate)
     step = 0
-    #tripset = set()
     while step < int(option.interval_size):
-     #   idlist = traci.simulation.getLoadedIDList()
-     #   for _id in idlist:
-     #       _from = traci.vehicle.getRoute(_id)[0]
-     #       _to = traci.vehicle.getRoute(_id)[-1]
-     #       tripset.add((_from, _to))         
         traci.simulationStep()
         step += 1
     state = traci.simulation.saveState(os.path.join(option.output_location,str(interval),str(iteration)+"_"+str(sample_iteration)+"_savedstate.xml"))
 
-    #new_route = list()
-    #for item in tripset:
-    #    route_edges = " ".join(traci.simulation.findRoute(item[0], item[1], routingMode=traci.constants.ROUTING_MODE_AGGREGATED).edges)
-    #    new_route.append({"trip_id":ft2id_trips[item], "from_edge":item[0], "to_edge":item[1],
-    #                     "weight_trip":ft2weight_trips[item], "route_edges":route_edges})
-        
     traci.close()
-    #new_route_df = pd.DataFrame(new_route)
-    #new_route_df["route_edges_internal"] = new_route_df["route_edges"].apply(lambda x: createRouteInternal(net, x))
 
-    #return new_route_df
 
 ###########################################################################################3
 
@@ -581,14 +544,10 @@ def shortest_path_OD(option, edge2time, interval, iteration, best_sample):
         return (((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5)/30
         
     def shortest_path(G, source, target, trip_id, weight_trip, return_dict):
-        #path = nx.astar_path(G, source="o_"+source, target="d_"+target, heuristic=dist, weight="cost")
         path = nx.shortest_path(G, source="o_"+source, target="d_"+target, weight="cost")
-        #weight = nx.path_weight(G, path, weight="cost")
-        #length = nx.path_weight(G, path, weight="length")
         path = nodepath2edgepath(path)
         path = fixpath(path, id2type)
         return_dict[(source, target, trip_id, weight_trip)] = path
-        #return weight, length, path
   
     net = sumolib.net.readNet(option.net_file , withInternal=True)
     edges_nx = pd.read_csv(option.edgedata_nx)
@@ -619,8 +578,6 @@ def shortest_path_OD(option, edge2time, interval, iteration, best_sample):
     for p in processes:
             p.join()   
 
-    #new_route.append({"trip_id":ft2id_trips[item], "from_edge":item[0], "to_edge":item[1],
-    #                     "weight_trip":ft2weight_trips[item], "route_edges":route_edges})
     routeList = []
     for key in return_dict.keys():
         routeList.append({"from_node":key[0], "to_node":key[1],  "trip_id":key[2], 
@@ -642,7 +599,7 @@ def route_update(_routes, option, edge2id, edge2time, interval=-1, iteration=-1,
         new_routes = shortest_path_OD(option, edge2time, interval, iteration, best_sample)
         log.info("        shortest path calculation is ended!")
 
-        new_routes.to_csv("test_shortest_path.csv", index=False)
+        #new_routes.to_csv("test_shortest_path.csv", index=False)
         new_routes["route_edges_internal"] = new_routes["route_edges"].apply(lambda x: createRouteInternal(net, x))
 
 
@@ -658,9 +615,7 @@ def route_update(_routes, option, edge2id, edge2time, interval=-1, iteration=-1,
     df1 = _routes[route_collumns]
     df1 = df1.set_index(["route_id","route_edges","from_node","to_node","weight_trip","route_edges_internal","sensors"])
 
-    #trip_0 = _routes.groupby("trip_id").apply(lambda row: -1 if len(row)<=int(option.max_routes) else row.iloc[np.argmax(row.travel_time)]["route_id"])
-    #remove_route_set = set(trip_0[trip_0!=-1])
-    #_routes = _routes[_routes["route_id"].apply(lambda x: x not in remove_route_set)]
+
     _routes = df1.groupby('trip_id')['travel_time'].nsmallest(int(option.max_routes)).reset_index() 
     _routes["sensors_time"] = _routes["route_edges_internal"].apply(lambda x: sensorTimeCalc(x, edge2id, edge2time))
     
@@ -749,9 +704,7 @@ def logging_statistics(option, interval, iteration, sample_iteration):
     vehicles_now["running"] = running
     vehicles_now["waiting"] = waiting
     log.info("        vehicles_now :      " + str(vehicles_now))
-    #log.info("        loaded = " +str(loaded) + "  inserted = " + str(inserted) +
-    #         "   running = " + str(running) + "   waiting = " + str(waiting))
-
+   
 
     tree = ET.parse(os.path.join(option.output_location,str(interval),str(iteration)+"_"+str(sample_iteration)+"_statistic_output.xml")) 
 
@@ -777,14 +730,10 @@ def logging_statistics(option, interval, iteration, sample_iteration):
 ###########################################################################################3
 
 def getShape(net, edge, geo=True):
-    #nodefrom = edge.getFromNode()
-    #nodeto = edge.getToNode()
-    
-    #coord_from = net.convertXY2LonLat(nodefrom.getCoord()[0], nodefrom.getCoord()[1])
-    #coord_to = net.convertXY2LonLat(nodeto.getCoord()[0], nodeto.getCoord()[1])
+   
     _shape = list()
 
-    for point in edge.getShape():  #getShape()
+    for point in edge.getShape():  
         if geo :
             _shape.append(net.convertXY2LonLat(point[0], point[1]))
         else:
@@ -908,11 +857,9 @@ def fun_sensor_error(option, interval, iteration, sample_iteration):
 
     vehroute = pd.read_csv(os.path.join(output_dir,str(interval),str(iteration)+"_"+str(sample_iteration)+"_vehroute_output.csv"), sep=";")
     sensor = pd.read_csv(output_dir + "real_data.csv")
-    #print(sensor.head())
 
     compare = sensor[sensor["interval"]==interval].drop(columns=["interval"])
     no_sensor = len(compare)
-    #print(compare.head())
 
     sensor_set = set(sensor["edge"])
     veh_sensor = vehroute2sensor(vehroute, sensor_set, interval, interval_size)
@@ -923,7 +870,6 @@ def fun_sensor_error(option, interval, iteration, sample_iteration):
     A = data["A"]
     x = data["x"]
     compare["calib"] = list(np.dot(A,x)) + compare["count"] - b[0:no_sensor]
-    #compare["calib_error"] = error(b[0:no_sensor], compare["calib"], 0)
     
     return error(compare["count"], compare["sim_count"], 0),error(compare["count"], compare["calib"], 0),error(compare["calib"], compare["sim_count"],0)
 
@@ -948,7 +894,6 @@ def parallel_sampling(report, od_estimation, routes, option, interval, iteration
     report["fixed_point_error"] = fixedpoint_error(oldedge2time, newedge2time)
     report["teleport"] = teleport
     report["newedge2time"] = newedge2time
-    #report["newroutes"] = new_routes
     report["all_routes"] = all_routes
     return_dict[sample_iteration] = report
 ###########################################################################################
@@ -1015,8 +960,6 @@ def main():
         writer.writeheader()
 
         
-    #spp = pd.read_csv(option.output_location+"spp_micro.csv")
-    #init_od = pd.read_csv(option.output_location+"init_od.csv")
     real_data = pd.read_csv(os.path.join(option.output_location,"real_data.csv"))
     routes = pd.read_csv(os.path.join(option.output_location,"route_file.csv"), low_memory=False)
     sensor_extra = pd.read_csv(option.sensor_extra)
@@ -1051,11 +994,8 @@ def main():
         best_fixed_point_error = 10
         best_error_sensor = 1
         routes = route_update(routes, option, edge2id, best_edge2time)
-        #routes.to_csv("test_routes.csv", index=False)
         sensorOnRoute_df = update_sensorOnRoute(routes, int(option.interval_size))
-        #sensorOnRoute_df.to_csv("test_sensor.csv", index=False)
         spp = update_spp(sensorOnRoute_df, trips_len=no_trips, sensors_len=no_sensors)
-        #spp.to_csv("test_spp.csv", index=False)
         best_waiting = MAX_WAITING
         best_average_speed = 0
         best_iteration = -1
@@ -1070,9 +1010,8 @@ def main():
         waiting = MAX_WAITING
         edge2time_list = list()
         edge2time_list.append(init_edge2time)
-        while  ( iteration < int(option.number_iteration)):# and (best_error_sensor>.1): #(best_fixed_point_error > .005) : 
+        while  ( iteration < int(option.number_iteration)):
             report["iteration"] = iteration
-            #waiting = 0
             log.info("interval = " + str(interval) + "    " +"iteration = " + str(iteration) + "     " + 
                      "    " + "sensor_count = " + str(sensors_count) +
                      "    " + "sensor_count_supported_last_interval = " + str(sensor_extra["count"].sum()) +
@@ -1082,7 +1021,7 @@ def main():
 
             log.info("    calibration")
 
-            sensor_error, od_estimation, report["vehicle_nummber_calib"] = calibration(  #  calibration_2(routes,
+            sensor_error, od_estimation, report["vehicle_nummber_calib"] = calibration( 
                                                   spp,
                                                   init_od,
                                                   real_data,
@@ -1123,7 +1062,6 @@ def main():
                     best_sample = i
 
             best_report = return_dict[best_sample]
-            #new_routes = best_report["newroutes"]
             average_edge2time = best_report["newedge2time"]
             fixed_point_error = best_report["fixed_point_error"]
 
@@ -1167,7 +1105,6 @@ def main():
                 best_sample_iteration = best_sample
                 best_all_routes = best_report["all_routes"].copy()
                 best_vehicle_from_last_interval = best_report["running"] + best_report["waiting"]
-                #best_edge2time = oldedge2time.copy()
             #else:
             #    clean_iteration(option, interval, iteration)
 
@@ -1182,32 +1119,12 @@ def main():
         log.info("{ interval : " +str(interval)+ "  best iteration  : " + str(best_iteration) +  "  best sampling : "+ str(best_sample_iteration)+
                  "  best waiting  : " + str(best_waiting) +
                  "  best average speed : " + str(best_average_speed) + " }")
-        """
-        if best_iteration != iteration :
-            aggregated = pd.read_csv(option.output_location+str(interval)+"/" +str(best_iteration)+"_aggregated.csv", sep=";")
-            newedge2time = aggregated.set_index("edge_id")["edge_traveltime"].to_dict()
-            edge2id = real_data.set_index("edge")["id"].to_dict()
-            log.info("    routes updating based on the best iteration")
-            routes = route_update(routes, option, edge2id,newedge2time)
-            log.info("    sensorOnRoute updating based on the best iteration")
-            sensorOnRoute_df = update_sensorOnRoute(routes, int(option.interval_size))
-            log.info("    spp updating based on the best iteration")
-            spp = update_spp(sensorOnRoute_df, trips_len=no_trips, sensors_len=no_sensors)
-        """
+      
         last_best_iteration = best_iteration
         last_best_sample_iteration = best_sample_iteration
         od_waiting = calculate_OD_waiting(option=option, interval=interval, iteration=last_best_iteration, sample_iteration=last_best_sample_iteration)
         od_waiting.to_csv(os.path.join(option.output_location,str(interval) +"_od_waiting.csv"), index=False)
-        #print(od_waiting)
 
-
-
-#args = ["-n", "sample-grid-10-10/net.xml", "-m", "sample-grid-10-10/sensor_edge_data_grid.csv", "-dod", "sample-grid-10-10/init_dod.csv", "--max-routes", 10,
-#        "-is", "3600", "-r", "sample-grid-10-10/last_routes.xml", "-l", "output-grid-10-10/", "--scale-number","1", # scale number should be depend on probability of sensor on trip in best condition of the network
-#        "--interval-begin", "0", "--interval-end", "1", "--number-iteration", "200", "--traveltime-factor", "10", "--sample-iteration", "2",
-#        "--save-configuration", "grid_10_10.cfg","--netstate-loading","true","--teta","-0.001","--weight-calibration", "0.25",
-#         "--sumo-home", "/home/kaveh/build/sumo", "--sumo-binary", "/home/kaveh/virenv/bin/sumo"]
-#args = ["-c","grid_10_10.cfg"]
 
 
 if __name__=="__main__":
