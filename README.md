@@ -57,5 +57,5 @@ For any questions, feedback, or inquiries, please feel free to reach out to us:
 
 The calibration tool originates from an implementation of this paper 
 "Leveraging IoT Data Stream for Near-Real-Time Calibration of
-City-Scale Microscopic Traffic Simulation". A post-print version of the paper can be downloaded at [link](./).
+City-Scale Microscopic Traffic Simulation". A preprint version of the paper can be downloaded at [link](https://arxiv.org/pdf/2210.17315.pdf).
 
