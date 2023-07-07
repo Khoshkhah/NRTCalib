@@ -942,6 +942,26 @@ def calculate_OD_waiting(option, interval, iteration, sample_iteration):
     return waiting
 ###########################################################################################
 
+def save_outout(option):
+    report = pd.read_csv(os.path.join(option.output_location,"report.csv"))
+    best_iteration_error_result = report.groupby("interval").apply(lambda table:table.iloc[table["sensor_error_simulation"].argmin()])
+   
+    for index, row in best_iteration_error_result.iterrows():
+        interval = str(int(row.interval))
+        iteration = str(int(row.iteration))
+        sample_iteration = str(int(row.sample_number))
+        diroutput = os.path.join(option.output_location,str(interval))
+        if index == 0:
+            tree = ET.parse(os.path.join(diroutput, str(iteration)+"_"+str(sample_iteration)+"_routes_sim.xml"))
+            root = tree.getroot()
+        else:
+            tree0 = ET.parse(os.path.join(diroutput, str(iteration)+"_"+str(sample_iteration)+"_routes_sim.xml"))
+            root0 = tree0.getroot()
+            root.extend(root0)
+
+    tree.write(os.path.join(option.output_location,'routes.xml'))
+##############################################################################################
+
 def main():
     option = get_options()
     option = update_option(option)
@@ -1124,6 +1144,8 @@ def main():
         last_best_sample_iteration = best_sample_iteration
         od_waiting = calculate_OD_waiting(option=option, interval=interval, iteration=last_best_iteration, sample_iteration=last_best_sample_iteration)
         od_waiting.to_csv(os.path.join(option.output_location,str(interval) +"_od_waiting.csv"), index=False)
+    
+    save_outout(option)
 
 
 
