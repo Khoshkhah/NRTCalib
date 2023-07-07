@@ -7,8 +7,8 @@ This software leverages IoT data streams for near-real-time calibration of city-
 To install and run the calibration software, follow these steps:
 
 1. Clone the repository to your local machine:
-git clone https://github.com/your-username/calibration-software.git
 
+        git clone https://github.com/Khoshkhah/ESTCalib.git
 
 2. Install the required dependencies. You can use pip to install them:
 pip install -r requirements.txt
