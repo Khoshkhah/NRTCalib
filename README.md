@@ -1,4 +1,4 @@
-# Calibration Software for City-Scale Microscopic Traffic Simulation
+# Parallel Calibration Tool for City-Scale Microscopic Traffic Simulation by [SUMO](https://sumo.dlr.de/index.html)
 
 
 ## Installation
@@ -7,9 +7,11 @@ To install and run the calibration tool, follow these steps:
 
 1. Clone the repository to your local machine:
 
-        git clone https://github.com/Khoshkhah/ESTCalib.git
+        git clone https://github.com/Khoshkhah/ESTCalib.git     
 
-2. Install the required dependencies. You can use pip to install them:
+2. Install [SUMO](https://sumo.dlr.de/docs/Downloads.php).
+
+3. Install the required dependencies. You can use pip to install them:
 pip install -r requirements.txt
 
 
