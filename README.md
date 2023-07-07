@@ -17,16 +17,15 @@ pip install -r requirements.txt
 
 ## Usage
 
-The calibration tool has to be started via calib.py, which is a command line application. It has the necessary following parameters:
+The calibration tool has to be started via [calib.py](calib.py), which is a command line application. It has the necessary following parameters:
 
 1. -n network file address, that is a sumo network file.
 
 2. -m the measurment filename contains sensor data. 
-        it is a table file contains three columns "edge","count","interval" that are seperated by comma.
+        it is a table file contains three columns "edge", "count" and "interval" that are seperated by comma.
 
 3. -dod the init distributed origin destination matrix filename.
-        it is a table file contains five columns from_node,to_node,interval,weight_trip,trip_id
-        that are seperated by comma.
+        it is a table file contains five columns "from_node", "to_node", "interval","weight_trip" and "trip_id" that are seperated by comma.
 
 4. -is the size of each interval in seconds. that is a integer number.
 
@@ -49,8 +48,8 @@ Also for running the calibration tool, you can use a configuration xml file like
 
 ## Examples and Sample Data
 
-We have provided examples and sample data in the [examples](./examples) directory. You can explore them to understand how to use the software effectively.
-
+We have provided examples and sample data in the [examples](./examples) directory. You can explore them to understand how to use the tool effectively.
+All input data and a 24-hour calibrated microscopic traffic simulation for the case study of Tartu City is available at [zenodo.org](https://doi.org/10.5281/zenodo.8125656)
 
 ## Contact Information
 
