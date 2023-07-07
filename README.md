@@ -50,7 +50,7 @@ The calibration software requires the following data for effective calibration:
 ## High-level architecture of the calibration method
 
 
- !["YOUR-ALT-TEXT"]("/assets/images/architecture.jpg")
+ !["YOUR-ALT-TEXT"]("assets/images/architecture.jpg")
 
 
 The calibration software offers the following additional features:
