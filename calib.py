@@ -40,31 +40,34 @@ report = dict()
 
 def get_options(args=None):
     argParser = sumolib.options.ArgumentParser()
-    argParser.add_argument("-n", "--net-file", help="the SUMO net filename")
-    argParser.add_argument("-m", "--measurment-file", help="the measurment filename contains sensor data") 
+    required = argParser.add_argument_group('required arguments')
+    argParser.add_argument("-n", "--net-file", help="the SUMO net filename", required=True)
+    argParser.add_argument("-m", "--measurment-file", help="the measurment filename contains sensor data",required=True) 
+    argParser.add_argument("-dod", "--dod-file", help="the init distributed origin destination matrix filename",required=True)
+    argParser.add_argument("-is", "--interval-size", help="the size of each interval in seconds", required=True)
+
+    argParser.add_argument("-ni", "--number-iteration", help="number of iteration for each interval. default=10", default=10)
     argParser.add_argument("-r", "--route-file", help="the XML routes filename") 
-    argParser.add_argument("-dod", "--dod-file", help="the init distributed origin destination matrix filename")
-    argParser.add_argument("-ni", "--number-iteration", help="number of iteration for each interval, default is 20")
-    argParser.add_argument("-is", "--interval-size", help="the size of each interval")
     argParser.add_argument("-ib", "--interval-begin", help="the number of beginnig interval")
     argParser.add_argument("-ie", "--interval-end", help="the number of ending interval")
-    argParser.add_argument("-l", "--output-location", help="the location of output files")
+    argParser.add_argument("-l", "--output-location", help="the location of output files. default=output/", default="output")
     argParser.add_argument("-se", "--sensor-extra", help="the sensor data extra file")
-    argParser.add_argument("-teta", "--teta", help="teta for logit, default is -0.001 ")
-    argParser.add_argument("-nsl", "--netstate-loading", help="load net-state from the previous interval, default is true")
+    argParser.add_argument("-teta", "--teta", help="teta for logit. default=-0.001", default=-0.001)
+    argParser.add_argument("-nsl", "--netstate-loading", help="load net-state from the previous interval, default=true",  default=True)
     argParser.add_argument("-scalenumber", "--scale-number", help="it is one over expectation sensor crossing for a random trip, default is automated calculation ")
     argParser.add_argument("-wc", "--weight-calibration", help="weight in optimization formula in calibration. default is automated calculation")
     argParser.add_argument("-bw", "--best-waiting", help="the iteration is finished when number of waiting vehicle is less than this number \
-                                                           or the number of iteration is more than iteration number. default is 0")
-    argParser.add_argument("-mr", "--max-routes", help="maximum number of routes that saved in the database fo each trips, default is 10")
-    argParser.add_argument("-ttf", "--traveltime-factor", help="show how much the travel time can be far away the best time, default is 20 ")
-    argParser.add_argument("-sample-iteration", "--sample-iteration", help="number of sampling for getting travel time average for each edge, default is 5")
+                                                           or the number of iteration is more than iteration number. default=0",default=0)
+    argParser.add_argument("-mr", "--max-routes", help="maximum number of routes that saved in the database fo each trips, default=10",default=10)
+    argParser.add_argument("-ttf", "--traveltime-factor", help="show how much the travel time can be far away the best time, default=20",default=20)
+    argParser.add_argument("-sample-iteration", "--sample-iteration", help="number of sampling for getting travel time average for each edge, default=5",default=5)
     argParser.add_argument("-sumo-home", "--sumo-home", help="SUMO_HOME")
     argParser.add_argument("-sumo-binary", "--sumo-binary", help="sumo binary")
     argParser.add_argument("-edge-penalty", "--edge-penalty", help="add time (in second) to edge travel time")
     argParser.add_argument("-edgedata-nx", "--edgedata-nx", help="the edge data csv file for creating networkx")
 
 
+   
     options = argParser.parse_args()
 
     if  options.net_file is None or options.measurment_file is None or \
