@@ -7,7 +7,7 @@ To install and run the calibration tool, follow these steps:
 
 1. Clone the repository to your local machine:
 
-        git clone https://github.com/Khoshkhah/ESTCalib.git     
+        git clone https://github.com/Khoshkhah/NRTCalib.git     
 
 2. Install [SUMO](https://sumo.dlr.de/docs/Downloads.php).
 
