@@ -1,0 +1,12 @@
+eclipse-sumo==1.18.0
+networkx==3.1
+numpy==1.25.0
+pandas==2.0.3
+python-dateutil==2.8.2
+pytz==2023.3
+scipy==1.11.1
+shapely==2.0.1
+six==1.16.0
+sumolib==1.18.0
+traci==1.18.0
+tzdata==2023.3
