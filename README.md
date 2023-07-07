@@ -53,5 +53,9 @@ We have provided examples and sample data in the [examples](./examples) director
 ## Contact Information
 
 For any questions, feedback, or inquiries, please feel free to reach out to us:
-- Email: kaveh.khoshkhah@ut.ee
+- Email: kaveh.khoshkhah(at)ut.ee
+
+The calibration tool originates from an implementation of this paper 
+"Leveraging IoT Data Stream for Near-Real-Time Calibration of
+City-Scale Microscopic Traffic Simulation". A post-print version of the paper can be downloaded at [link](./).
 
