@@ -1,10 +1,10 @@
 # Calibration Software for City-Scale Microscopic Traffic Simulation
 
-This software leverages IoT data streams for near-real-time calibration of city-scale microscopic traffic simulation models. It provides a framework for adjusting simulation parameters based on real-time data, improving the accuracy and realism of traffic simulations.
+This tool is used for dynamic calibration for
 
 ## Installation
 
-To install and run the calibration software, follow these steps:
+To install and run the calibration tool, follow these steps:
 
 1. Clone the repository to your local machine:
 
@@ -16,18 +16,29 @@ pip install -r requirements.txt
 
 ## Usage
 
-To use the calibration software, follow these steps:
+The calibration tool has to be started via calib.py, which is a command line application. It has the necessary following parameters:
 
-1. Prepare the IoT data streams as input. The software supports [provide details of supported IoT data formats and sources].
+1. -n network file address, that is a sumo network file.
 
-2. Configure the software by modifying the `config.yml` file to specify the simulation parameters and calibration settings.
+2. -m the measurment filename contains sensor data. 
+        it is a table file contains three columns "edge","count","interval" that are seperated by comma.
 
-3. Run the software using the following command:
+3. -dod the init distributed origin destination matrix filename.
+        it is a table file contains five columns from_node,to_node,interval,weight_trip,trip_id
+        that are seperated by comma.
 
+4. -is the size of each interval in seconds. that is a integer number.
 
-4. Monitor the calibration process as it adjusts the simulation parameters based on the real-time data streams.
+For more information of these input look at the sample grid in the [examples/grid](./examples/grid/) directory.
 
-5. The calibrated simulation parameters and performance metrics will be outputted and can be used for further analysis or visualization.
+For getting the other optional arguments use the help command:
+
+         python calib.py --help
+
+Also for running the calibration tool, you can use a configuration xml file like [grid.cfg](./examples/grid/grid.cfg):
+
+        python calib.py -c examples/grid/config.cfg
+
 
 ## Data Requirements
 
@@ -36,7 +47,14 @@ The calibration software requires the following data for effective calibration:
 - [Specify the type of IoT data streams supported]
 - [Specify any specific format or structure requirements for the input data]
 
-## Additional Features
+## High-level architecture of the calibration method
+
+<picture>
+ <source media="(prefers-color-scheme: dark)" srcset="./img/archtecture.jpg">
+ <source media="(prefers-color-scheme: light)" srcset="./img/architecture.jpg">
+ <img alt="YOUR-ALT-TEXT" src="./img/architecture.jpg">
+</picture>
+
 
 The calibration software offers the following additional features:
 
