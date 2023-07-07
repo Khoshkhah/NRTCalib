@@ -50,9 +50,9 @@ The calibration software requires the following data for effective calibration:
 ## High-level architecture of the calibration method
 
 <picture>
- <source media="(prefers-color-scheme: dark)" srcset="./img/archtecture.jpg">
- <source media="(prefers-color-scheme: light)" srcset="./img/architecture.jpg">
- <img alt="YOUR-ALT-TEXT" src="./img/architecture.jpg">
+ <source media="(prefers-color-scheme: dark)" srcset="/assest/images/archtecture.jpg">
+ <source media="(prefers-color-scheme: light)" srcset="/assest/images/architecture.jpg">
+ <img alt="YOUR-ALT-TEXT" src="/assest/images/architecture.jpg">
 </picture>
 
 
