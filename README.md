@@ -1,6 +1,5 @@
 # Calibration Software for City-Scale Microscopic Traffic Simulation
 
-This tool is used for dynamic calibration for
 
 ## Installation
 
@@ -40,49 +39,19 @@ Also for running the calibration tool, you can use a configuration xml file like
         python calib.py -c examples/grid/config.cfg
 
 
-## Data Requirements
-
-The calibration software requires the following data for effective calibration:
-
-- [Specify the type of IoT data streams supported]
-- [Specify any specific format or structure requirements for the input data]
-
 ## High-level architecture of the calibration method
 
 
- !["YOUR-ALT-TEXT"](assets/images/architecture.jpg)
+ !["Architecture"](assets/images/architecture.jpg)
 
-
-The calibration software offers the following additional features:
-
-- [Describe any advanced algorithms, optimizations, or unique capabilities of the software]
 
 ## Examples and Sample Data
 
 We have provided examples and sample data in the [examples](./examples) directory. You can explore them to understand how to use the software effectively.
 
-## Contributing
-
-We welcome contributions from the community to enhance the calibration software. To contribute, please follow these guidelines:
-
-- [Specify how users can contribute, such as submitting bug reports, feature requests, or pull requests]
-- [Include any coding standards or testing requirements]
-
-## License
-
-This project is licensed under the [MIT License](./LICENSE).
-
-## Acknowledgments
-
-We would like to thank the following individuals for their contributions and support during the development of this software:
-
-- [Acknowledge any contributors or individuals who provided assistance or support]
 
 ## Contact Information
 
 For any questions, feedback, or inquiries, please feel free to reach out to us:
-
-- Email: your-email@example.com
-- Website: https://yourwebsite.com
-- Twitter: @your-twitter-handle
+- Email: kaveh.khoshkhah@ut.ee
 
