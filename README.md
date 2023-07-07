@@ -1,4 +1,4 @@
-# Parallel Calibration Tool for City-Scale Microscopic Traffic Simulation by [SUMO](https://sumo.dlr.de/index.html)
+# Parallel Dynamic Calibration Tool for City-Scale Microscopic Traffic Simulation by [SUMO](https://sumo.dlr.de/index.html)
 
 
 ## Installation
