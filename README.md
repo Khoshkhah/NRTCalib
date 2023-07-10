@@ -40,7 +40,7 @@ Also for running the calibration tool, you can use a configuration xml file like
         python calib.py -c examples/grid/config.cfg
 
 
-## High-level architecture of the calibration method
+## High-level architecture of the calibration method for one frame
 
 
  !["Architecture"](assets/images/architecture.jpg)
