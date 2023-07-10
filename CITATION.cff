@@ -1,0 +1,30 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: NRTCalib
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Kaveh
+    family-names: Khoshkhah
+    email: kaveh.khoshkhah@ut.ee
+    affiliation: University of Tartu
+    orcid: 'https://orcid.org/0000-0003-4777-804X'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.8125656
+    description: Dataset
+  - type: doi
+    value: 10.48550/arXiv.2210.17315
+    description: preprint
+abstract: >-
+  Parallel Dynamic Calibration Tool for City-Scale
+  Microscopic Traffic Simulation by SUMO
+keywords:
+  - microsimulation
+  - Calibration
+  - IoT data stream
+  - OD-matrix
