@@ -1,31 +1,31 @@
-# This CITATION.cff file was generated with cffinit.
-# Visit https://bit.ly/cffinit to generate yours today!
-
 cff-version: 1.2.0
-title: NRTCalib
-message: >-
-  If you use this software, please cite it using the
-  metadata from this file.
-type: software
+message: "If you use this software, please cite it as below."
 authors:
-  - given-names: Kaveh
-    family-names: Khoshkhah
-    email: kaveh.khoshkhah@ut.ee
-    affiliation: University of Tartu
-    orcid: 'https://orcid.org/0000-0003-4777-804X'
-identifiers:
-  - type: url
-    value: 'https://github.com/Khoshkhah/NRTCalib'
-    description: github url
-  - type: doi
-    value: 10.5281/zenodo.8125656
-    description: zenodo DOI
-repository-code: 'https://github.com/Khoshkhah/NRTCalib'
-abstract: >-
-  Parallel Dynamic Calibration Tool for City-Scale
-  Microscopic Traffic Simulation by SUMO
-keywords:
-  - Microsimulation
-  - Calibration
-  - IoT data stream
-  - OD-matrix
+  - family-names: "Khoshkhah"
+    given-names: "Kaveh"
+    email: "kaveh.khoshkhah@ut.ee"
+    orcid: "https://orcid.org/0000-0003-4777-804X"
+  - family-names: "Pourmoradnasseri"
+    given-names: "Mozhgan"
+  - family-names: "Hadachi"
+    given-names: "Amnir"
+title: "NRTCalib"
+doi: 10.5281/zenodo.8125656
+date-released: 2023-07-07
+url: "https://github.com/Khoshkhah/NRTCalib"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Khoshkhah"
+    given-names: "Kaveh"
+    email: "kaveh.khoshkhah@ut.ee"
+    orcid: "https://orcid.org/0000-0003-4777-804X"
+  - family-names: "Pourmoradnasseri"
+    given-names: "Mozhgan"
+  - family-names: "Hadachi"
+    given-names: "Amnir"
+  doi: "10.48550/arXiv.2210.17315"
+  journal: "preprint"
+  title: "Leveraging IoT Data Stream for Near-Real-Time Calibration of City-Scale Microscopic Traffic Simulation"
+  year: 2022
+
