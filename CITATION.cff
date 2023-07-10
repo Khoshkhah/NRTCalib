@@ -14,17 +14,18 @@ authors:
     affiliation: University of Tartu
     orcid: 'https://orcid.org/0000-0003-4777-804X'
 identifiers:
+  - type: url
+    value: 'https://github.com/Khoshkhah/NRTCalib'
+    description: github url
   - type: doi
     value: 10.5281/zenodo.8125656
-    description: Dataset
-  - type: doi
-    value: 10.48550/arXiv.2210.17315
-    description: preprint
+    description: zenodo DOI
+repository-code: 'https://github.com/Khoshkhah/NRTCalib'
 abstract: >-
   Parallel Dynamic Calibration Tool for City-Scale
   Microscopic Traffic Simulation by SUMO
 keywords:
-  - microsimulation
+  - Microsimulation
   - Calibration
   - IoT data stream
   - OD-matrix
